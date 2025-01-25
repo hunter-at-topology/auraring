@@ -127,7 +127,8 @@
         try {
           const request = {
             'calendarId': 'primary',
-            'timeMin': (new Date()).toISOString(),
+            'timeMin': '2024-01-01T00:00:00Z',
+            'timeMax': (new Date()).toISOString(),
             'showDeleted': false,
             'singleEvents': true,
             'maxResults': 50,

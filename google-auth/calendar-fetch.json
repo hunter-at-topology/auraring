@@ -1,0 +1,39 @@
+{
+    "events": [
+      {
+        "title": "Can VCs even code - Hackathon",
+        "startTime": "2025-01-25T11:00:00-08:00",
+        "timeZone": "-08:00",
+        "category": "Conference",
+        "tags": ["Hackathon", "Tech"]
+      },
+      {
+        "title": "Sync with Camille",
+        "startTime": "2025-01-27T14:00:00-08:00",
+        "timeZone": "-08:00",
+        "category": "Sync",
+        "tags": ["1:1", "Collaboration"]
+      },
+      {
+        "title": "Ishan Khurjekar / Amplifier Health",
+        "startTime": "2025-01-28T12:00:00-08:00",
+        "timeZone": "-08:00",
+        "category": "Meeting",
+        "tags": ["Recruitment", "Discussion"]
+      },
+      {
+        "title": "R&D Stand-up",
+        "startTime": "2025-01-28T15:00:00-08:00",
+        "timeZone": "-08:00",
+        "category": "Stand-up",
+        "tags": ["R&D", "Team"]
+      },
+      {
+        "title": "Out of office",
+        "startTime": "2025-03-03T08:00:00-08:00",
+        "timeZone": "-08:00",
+        "category": "Out of Office",
+        "tags": ["Personal Time"]
+      }
+    ]
+  }
