@@ -4,6 +4,45 @@
   <head>
     <title>Google Calendar API Browser Fetch</title>
     <meta charset="utf-8" />
+    <style>
+      .user-orb {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #4285f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        margin: 10px;
+      }
+      .user-orb:hover {
+        opacity: 0.8;
+      }
+      #orb-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+      #data-display {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        display: none;
+      }
+      .meeting-item {
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+      }
+      .heart-rate {
+        color: #dc3545;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <p>Google Calendar API Quickstart</p>
@@ -11,6 +50,9 @@
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize_button" onclick="handleAuthClick()">Authorize</button>
     <button id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+
+    <div id="orb-container"></div>
+    <div id="data-display"></div>
 
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
@@ -118,6 +160,68 @@
       }
 
       /**
+       * Display user orbs and their associated data
+       */
+      async function displayUserData(events, attendeeData) {
+        const orbContainer = document.getElementById('orb-container');
+        const dataDisplay = document.getElementById('data-display');
+        orbContainer.innerHTML = '';
+        
+        // Create a Set to store unique attendees
+        const uniqueAttendees = new Set();
+        events.forEach(event => {
+          if (event.attendees) {
+            event.attendees.forEach(attendee => {
+              uniqueAttendees.add(attendee.email);
+            });
+          }
+        });
+
+        // Create orbs for each unique attendee
+        uniqueAttendees.forEach(email => {
+          const orb = document.createElement('div');
+          orb.className = 'user-orb';
+          orb.textContent = email.charAt(0).toUpperCase();
+          orb.addEventListener('click', () => showAttendeeData(email, events, attendeeData));
+          orbContainer.appendChild(orb);
+        });
+      }
+
+      function showAttendeeData(email, events, attendeeData) {
+        const dataDisplay = document.getElementById('data-display');
+        dataDisplay.style.display = 'block';
+        
+        // Filter events for this attendee
+        const attendeeEvents = events.filter(event => 
+          event.attendees && event.attendees.some(a => a.email === email)
+        );
+
+        // Get heart rate data for this attendee
+        const heartRates = attendeeData.get(email) || [];
+        const avgHeartRate = heartRates.length > 0 
+          ? Math.round(heartRates.reduce((a, b) => a + b, 0) / heartRates.length) 
+          : 'N/A';
+
+        // Create HTML content
+        let html = `<h3>Data for ${email}</h3>`;
+        html += `<p>Average Heart Rate: <span class="heart-rate">${avgHeartRate} BPM</span></p>`;
+        html += '<h4>Meetings:</h4>';
+        
+        attendeeEvents.forEach(event => {
+          const start = new Date(event.start.dateTime || event.start.date);
+          html += `
+            <div class="meeting-item">
+              <strong>${event.summary || 'Untitled Event'}</strong><br>
+              ${start.toLocaleString()}<br>
+              ${event.attendees?.length || 1} attendees
+            </div>
+          `;
+        });
+
+        dataDisplay.innerHTML = html;
+      }
+
+      /**
        * Print the summary and start datetime/date of the next ten events in
        * the authorized user's calendar. If no events are found an
        * appropriate message is printed.
@@ -125,31 +229,23 @@
       async function listUpcomingEvents() {
         let response;
         try {
-          const request = {
-            'calendarId': 'primary',
-            'timeMin': '2024-01-01T00:00:00Z',
-            'timeMax': (new Date()).toISOString(),
-            'showDeleted': false,
-            'singleEvents': true,
-            'maxResults': 50,
-            'orderBy': 'startTime',
-          };
-          response = await gapi.client.calendar.events.list(request);
+          const tokens = JSON.stringify({
+            tokens: gapi.client.getToken()
+          });
+          
+          const request = await fetch(`/api/aura?tokens=${encodeURIComponent(tokens)}`);
+          response = await request.json();
+          
+          if (response.error) {
+            throw new Error(response.error);
+          }
+
+          displayUserData(response.events, new Map(Object.entries(response.attendeeHeartRates)));
+          
         } catch (err) {
           document.getElementById('content').innerText = err.message;
           return;
         }
-
-        const events = response.result.items;
-        if (!events || events.length == 0) {
-          document.getElementById('content').innerText = 'No events found.';
-          return;
-        }
-        // Flatten to string to display
-        const output = events.reduce(
-            (str, event) => `${str}${event.summary} (${event.start.dateTime || event.start.date})\n`,
-            'Events:\n');
-        document.getElementById('content').innerText = output;
       }
     </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>

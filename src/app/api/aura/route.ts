@@ -100,26 +100,15 @@ export async function GET(request: Request) {
       });
     });
 
-    // Calculate average heart rate per attendee and transform into visualization data
-    const transformedData = Array.from(attendeeHeartRates.entries()).map(([email, rates], index) => {
-      const avgBpm = rates.length > 0 ? rates.reduce((a, b) => a + b, 0) / rates.length : 0;
-      return {
-        id: index.toString(),
-        name: email,
-        bpm: Math.round(avgBpm),
-        auraColors: {
-          from: `rgb(${Math.min(255, avgBpm)}, 100, 255)`,
-          to: `rgb(100, ${Math.min(255, avgBpm)}, 255)`,
-        }
-      };
-    });
+    // Convert Map to a regular object for JSON serialization
+    const attendeeHeartRatesObj = Object.fromEntries(attendeeHeartRates);
 
-    return NextResponse.json({ transformedData, events });
+    return NextResponse.json({
+      events: events.data.items,
+      attendeeHeartRates: attendeeHeartRatesObj
+    });
   } catch (error) {
-    console.error('Error fetching aura data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch aura data' },
-      { status: 500 }
-    );
+    console.error('Error:', error);
+    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
   }
 } 
