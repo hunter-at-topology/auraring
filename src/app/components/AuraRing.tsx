@@ -15,46 +15,36 @@ interface Friend {
 }
 
 export default function AuraRing() {
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchAuraData() {
-      try {
-        const response = await fetch('/api/aura');
-        if (!response.ok) {
-          throw new Error('Failed to fetch aura data');
-        }
-        const data = await response.json();
-        setFriends(data);
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load aura data');
-        console.error('Error loading aura data:', err);
-      } finally {
-        setLoading(false);
+  // Sample friend data
+  const sampleFriends: Friend[] = [
+    {
+      id: '1',
+      name: 'Alice',
+      distance: 70,
+      auraColors: {
+        from: 'rgb(255, 100, 255)',
+        to: 'rgb(100, 255, 255)'
+      }
+    },
+    {
+      id: '2', 
+      name: 'Bob',
+      distance: 80,
+      auraColors: {
+        from: 'rgb(100, 200, 255)',
+        to: 'rgb(200, 100, 255)'
+      }
+    },
+    {
+      id: '3',
+      name: 'Charlie',
+      distance: 60,
+      auraColors: {
+        from: 'rgb(255, 200, 100)',
+        to: 'rgb(100, 255, 200)'
       }
     }
-
-    fetchAuraData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="relative w-full max-w-3xl aspect-square flex items-center justify-center">
-        <div className="text-white">Loading aura data...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="relative w-full max-w-3xl aspect-square flex items-center justify-center">
-        <div className="text-red-400">{error}</div>
-      </div>
-    );
-  }
+  ];
 
   return (
     <div className="relative w-full max-w-3xl aspect-square">
@@ -66,8 +56,8 @@ export default function AuraRing() {
       </div>
 
       {/* Surrounding friend orbs */}
-      {friends.map((friend, index) => {
-        const angle = (index * 2 * Math.PI) / friends.length;
+      {sampleFriends.map((friend, index) => {
+        const angle = (index * 2 * Math.PI) / sampleFriends.length;
         return (
           <div
             key={friend.id}
@@ -115,4 +105,4 @@ export default function AuraRing() {
       })}
     </div>
   );
-} 
+}
