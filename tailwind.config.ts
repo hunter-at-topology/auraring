@@ -18,8 +18,10 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-in forwards',
         'fade-out': 'fadeOut 0.5s ease-out forwards',
         'scale-in': 'scaleIn 0.5s ease-out forwards',
-        'blob': 'blob 7s infinite',
-        'blob-spin': 'blob-spin 20s infinite linear',
+        'blob-1': 'blob-1 20s infinite',
+        'blob-2': 'blob-2 25s infinite',
+        'blob-3': 'blob-3 30s infinite',
+        'blob-4': 'blob-4 35s infinite',
         'shimmer': 'shimmer 2s linear infinite',
       },
       keyframes: {
@@ -39,26 +41,54 @@ export default {
           '0%': { transform: 'scale(0.9)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
-        blob: {
-          '0%': {
-            transform: 'translate(0px, 0px) scale(1)',
+        'blob-1': {
+          '0%, 100%': {
+            transform: 'translate(0, 0) scale(1)',
           },
-          '33%': {
-            transform: 'translate(30px, -50px) scale(1.1)',
+          '25%': {
+            transform: 'translate(150px, -100px) scale(1.2)',
           },
-          '66%': {
-            transform: 'translate(-20px, 20px) scale(0.9)',
+          '50%': {
+            transform: 'translate(-50px, 100px) scale(0.9)',
           },
-          '100%': {
-            transform: 'translate(0px, 0px) scale(1)',
+          '75%': {
+            transform: 'translate(-100px, -50px) scale(1.1)',
           },
         },
-        'blob-spin': {
-          '0%': {
-            transform: 'rotate(0deg)',
+        'blob-2': {
+          '0%, 100%': {
+            transform: 'translate(0, 0) scale(1)',
           },
-          '100%': {
-            transform: 'rotate(360deg)',
+          '33%': {
+            transform: 'translate(-100px, 100px) scale(1.1)',
+          },
+          '66%': {
+            transform: 'translate(100px, 50px) scale(0.9)',
+          },
+        },
+        'blob-3': {
+          '0%, 100%': {
+            transform: 'translate(0, 0) scale(1)',
+          },
+          '33%': {
+            transform: 'translate(100px, -100px) scale(0.8)',
+          },
+          '66%': {
+            transform: 'translate(-150px, 50px) scale(1.2)',
+          },
+        },
+        'blob-4': {
+          '0%, 100%': {
+            transform: 'translate(0, 0) scale(1)',
+          },
+          '25%': {
+            transform: 'translate(-100px, -150px) scale(1.2)',
+          },
+          '50%': {
+            transform: 'translate(100px, 100px) scale(0.8)',
+          },
+          '75%': {
+            transform: 'translate(50px, -100px) scale(1.1)',
           },
         },
         shimmer: {

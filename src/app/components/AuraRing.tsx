@@ -58,49 +58,88 @@ export default function AuraRing() {
   const attendeeArray = Array.from(uniqueAttendees);
 
   return (
-    <div className="relative w-full h-screen max-h-[800px] max-w-[800px] mx-auto">
-      {/* Central glowing orb - your aura */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-64 md:h-64">
-        <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-xl" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-cyan-300 to-blue-500 animate-pulse shadow-[0_0_60px_20px_rgba(96,165,250,0.4)]" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-300/40 via-transparent to-cyan-300/40 animate-pulse [animation-delay:-.5s]" />
+    <div className="fixed inset-0 flex items-center justify-center bg-black overflow-hidden">
+      {/* Gooey effect base */}
+      <div className="absolute inset-0 bg-black filter blur-[150px] opacity-80" />
+      
+      {/* Lava lamp background effect */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="relative w-[1200px] h-[1200px]">
+          {/* Layer 1 - Deep background blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] bg-gradient-to-r from-blue-500/30 to-purple-600/30 rounded-full mix-blend-screen opacity-40 animate-blob-1" 
+               style={{ filter: 'blur(100px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-500/30 to-pink-600/30 rounded-full mix-blend-screen opacity-40 animate-blob-2 [animation-delay:-10s]"
+               style={{ filter: 'blur(120px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 2 - Mid-level blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-400/40 to-blue-600/40 rounded-full mix-blend-screen opacity-50 animate-blob-3 [animation-delay:-5s]"
+               style={{ filter: 'blur(80px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[550px] h-[550px] bg-gradient-to-r from-pink-400/40 to-purple-600/40 rounded-full mix-blend-screen opacity-50 animate-blob-4 [animation-delay:-15s]"
+               style={{ filter: 'blur(90px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 3 - Foreground blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-400/50 to-cyan-600/50 rounded-full mix-blend-screen opacity-60 animate-blob-2 [animation-delay:-7s]"
+               style={{ filter: 'blur(60px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[450px] h-[450px] bg-gradient-to-r from-purple-400/50 to-pink-600/50 rounded-full mix-blend-screen opacity-60 animate-blob-3 [animation-delay:-12s]"
+               style={{ filter: 'blur(70px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 4 - Small accent blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-gradient-to-r from-cyan-300/60 to-blue-500/60 rounded-full mix-blend-screen opacity-70 animate-blob-4 [animation-delay:-3s]"
+               style={{ filter: 'blur(50px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] bg-gradient-to-r from-pink-300/60 to-purple-500/60 rounded-full mix-blend-screen opacity-70 animate-blob-1 [animation-delay:-8s]"
+               style={{ filter: 'blur(40px)', transform: 'translate(-50%, -50%)' }} />
+        </div>
       </div>
 
-      {/* Surrounding attendee orbs */}
-      {attendeeArray.map((email, index) => {
-        const heartRates = auraData?.attendeeHeartRates[email] || [];
-        const avgHeartRate = heartRates.length > 0
-          ? Math.round(heartRates.reduce((a, b) => a + b, 0) / heartRates.length)
-          : 0;
+      {/* Main content container */}
+      <div className="relative w-full h-screen max-h-[800px] max-w-[800px] mx-auto">
+        {/* Central aura orb - more ethereal */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64">
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/10 to-purple-500/10 backdrop-blur-xl" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/80 via-cyan-300/80 to-purple-500/80 mix-blend-screen animate-pulse shadow-[0_0_150px_50px_rgba(96,165,250,0.3)]" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-300/30 via-transparent to-purple-400/30 mix-blend-screen animate-pulse [animation-delay:-.5s]" />
+          
+          {/* Center AURA text */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-white text-4xl font-light tracking-[0.2em] animate-pulse mix-blend-overlay">aura</div>
+          </div>
+        </div>
 
-        // Get min and max BPM values across all attendees
-        const allHeartRates = Object.values(auraData?.attendeeHeartRates || {})
-          .flatMap(rates => rates.length > 0 
-            ? [Math.round(rates.reduce((a, b) => a + b, 0) / rates.length)]
-            : []);
-        
-        const minBpm = Math.min(...allHeartRates);
-        const maxBpm = Math.max(...allHeartRates);
-        const bpmRange = maxBpm - minBpm || 1; // Prevent division by zero
-        
-        // Calculate normalized distance (20-60 range for better fit)
-        const normalizedBpm = (avgHeartRate - minBpm) / bpmRange; // 0 to 1
-        const distance = 20 + (normalizedBpm * 40); // Maps to 20-60 range
-        
-        const totalAttendees = attendeeArray.length;
-        const angle = (index * 2 * Math.PI) / totalAttendees;
-        const delay = (index % 8) * 0.15;
-        const size = 32;
-        
-        return (
-          <>
-            {/* Center AURA text */}
-            {index === 0 && (
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                <div className="text-white text-4xl font-bold tracking-widest">aura</div>
-              </div>
-            )}
-            
+        {/* Surrounding attendee orbs */}
+        {attendeeArray.map((email, index) => {
+          const heartRates = auraData?.attendeeHeartRates[email] || [];
+          const avgHeartRate = heartRates.length > 0
+            ? Math.round(heartRates.reduce((a, b) => a + b, 0) / heartRates.length)
+            : 0;
+
+          // Calculate dynamic distance based on heart rate
+          const allHeartRates = Object.values(auraData?.attendeeHeartRates || {})
+            .flatMap(rates => rates.length > 0 
+              ? [Math.round(rates.reduce((a, b) => a + b, 0) / rates.length)]
+              : []);
+
+          const minBpm = Math.min(...allHeartRates, avgHeartRate);
+          const maxBpm = Math.max(...allHeartRates, avgHeartRate);
+          const bpmRange = maxBpm - minBpm || 1;
+
+          // Map heart rate to distance (30-70 range)
+          const normalizedBpm = avgHeartRate ? (avgHeartRate - minBpm) / bpmRange : 0.5;
+          const distance = 30 + (normalizedBpm * 40);
+
+          const totalAttendees = attendeeArray.length;
+          const angle = (index * 2 * Math.PI) / totalAttendees;
+          const delay = (index % 8) * 0.15;
+          
+          // Dynamic size based on heart rate
+          const baseSize = 40;
+          const sizeVariation = avgHeartRate ? (normalizedBpm * 10) : 0;
+          const size = baseSize + sizeVariation;
+
+          // Dynamic glow intensity based on heart rate
+          const glowIntensity = avgHeartRate ? Math.min(0.8, 0.4 + (normalizedBpm * 0.4)) : 0.4;
+          const glowSize = avgHeartRate ? Math.min(30, 15 + (normalizedBpm * 15)) : 15;
+          
+          return (
             <div
               key={email}
               className="absolute transition-all duration-500 hover:scale-125 cursor-pointer group"
@@ -121,50 +160,64 @@ export default function AuraRing() {
                   animationDuration: '3s'
                 }}
               >
-                {/* Aura glow */}
+                {/* Attendee orb glow - dynamic based on heart rate */}
                 <div 
-                  className="absolute inset-0 rounded-full shadow-[0_0_10px_3px_rgba(96,165,250,0.3)]"
+                  className="absolute inset-0 rounded-full mix-blend-screen"
                   style={{
-                    backgroundColor: `rgb(${Math.min(255, avgHeartRate)}, 100, 255)`,
+                    background: `radial-gradient(circle at center, 
+                      rgba(96, 165, 250, ${glowIntensity}) 0%,
+                      rgba(147, 51, 234, ${glowIntensity * 0.7}) 70%,
+                      rgba(147, 51, 234, 0) 100%)`,
+                    boxShadow: `0 0 ${glowSize}px ${glowSize/2}px rgba(96,165,250,0.3)`
                   }}
                 />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 to-white/30 mix-blend-overlay" />
+                
                 {/* Initial letter */}
-                <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-medium">
+                <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-light">
                   {email[0].toUpperCase()}
                 </div>
                 
-                {/* Tooltip */}
-                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/10 backdrop-blur-md rounded text-white text-xs whitespace-nowrap">
-                  {email}
-                  <br />
-                  {avgHeartRate > 0 ? `${avgHeartRate} BPM` : 'No heart rate data'}
+                {/* Enhanced tooltip */}
+                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm whitespace-nowrap">
+                  <div className="font-medium">{email}</div>
+                  <div className="text-xs opacity-80">
+                    {avgHeartRate > 0 ? (
+                      <>
+                        <span className="text-cyan-300">{avgHeartRate} BPM</span>
+                        <span className="text-xs opacity-60 ml-1">
+                          ({Math.round(normalizedBpm * 100)}% intensity)
+                        </span>
+                      </>
+                    ) : 'No heart rate data'}
+                  </div>
                 </div>
               </div>
             </div>
-          </>
-        );
-      })}
+          );
+        })}
+      </div>
 
       {/* Selected attendee details panel */}
       {selectedAttendee && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-indigo-900/95 to-black/95 backdrop-blur-sm p-4" style={{ zIndex: 1000 }}>
-          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold text-white">{selectedAttendee}</h2>
+        <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md p-4" style={{ zIndex: 1000 }}>
+          <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto border border-white/10">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-light text-white tracking-wide">{selectedAttendee}</h2>
               <button 
                 onClick={() => setSelectedAttendee(null)}
-                className="text-white/60 hover:text-white"
+                className="text-white/60 hover:text-white transition-colors"
               >
                 ✕
               </button>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Heart Rate */}
               {auraData?.attendeeHeartRates[selectedAttendee] && (
-                <div className="bg-white/20 rounded-lg p-4">
-                  <h3 className="text-white/80 text-sm mb-2">Average Heart Rate</h3>
-                  <p className="text-2xl font-semibold text-white">
+                <div className="bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/5">
+                  <h3 className="text-white/80 text-sm font-medium mb-2">Average Heart Rate</h3>
+                  <p className="text-3xl font-light text-white">
                     {Math.round(
                       auraData.attendeeHeartRates[selectedAttendee].reduce((a, b) => a + b, 0) / 
                       auraData.attendeeHeartRates[selectedAttendee].length
@@ -175,13 +228,13 @@ export default function AuraRing() {
 
               {/* Meetings */}
               <div>
-                <h3 className="text-white/80 text-sm mb-2">Recent Meetings</h3>
-                <div className="space-y-2">
+                <h3 className="text-white/80 text-sm font-medium mb-3">Recent Meetings</h3>
+                <div className="space-y-3">
                   {auraData?.events
                     .filter(event => event.attendees?.some(a => a.email === selectedAttendee))
                     .map(event => (
-                      <div key={event.id} className="bg-white/20 rounded-lg p-4">
-                        <h4 className="text-white font-medium">{event.summary || 'Untitled Event'}</h4>
+                      <div key={event.id} className="bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/5">
+                        <h4 className="text-white font-medium mb-1">{event.summary || 'Untitled Event'}</h4>
                         <p className="text-white/60 text-sm">
                           {new Date(event.start?.dateTime || event.start?.date || '').toLocaleString()}
                         </p>
