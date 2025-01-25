@@ -93,46 +93,55 @@ export default function AuraRing() {
         const size = 32;
         
         return (
-          <div
-            key={email}
-            className="absolute transition-all duration-500 hover:scale-125 cursor-pointer group"
-            style={{
-              top: `${50 + distance * Math.sin(angle)}%`,
-              left: `${50 + distance * Math.cos(angle)}%`,
-              transform: 'translate(-50%, -50%)',
-              width: `${size}px`,
-              height: `${size}px`,
-              zIndex: Math.floor(distance),
-            }}
-            onClick={() => setSelectedAttendee(email)}
-          >
-            <div 
-              className="relative w-full h-full animate-float" 
-              style={{ 
-                animationDelay: `${delay}s`,
-                animationDuration: '3s'
-              }}
-            >
-              {/* Aura glow */}
-              <div 
-                className="absolute inset-0 rounded-full shadow-[0_0_10px_3px_rgba(96,165,250,0.3)]"
-                style={{
-                  backgroundColor: `rgb(${Math.min(255, avgHeartRate)}, 100, 255)`,
-                }}
-              />
-              {/* Initial letter */}
-              <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-medium">
-                {email[0].toUpperCase()}
+          <>
+            {/* Center AURA text */}
+            {index === 0 && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                <div className="text-white text-4xl font-bold tracking-widest">aura</div>
               </div>
-              
-              {/* Tooltip */}
-              <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/10 backdrop-blur-md rounded text-white text-xs whitespace-nowrap">
-                {email}
-                <br />
-                {avgHeartRate > 0 ? `${avgHeartRate} BPM` : 'No heart rate data'}
+            )}
+            
+            <div
+              key={email}
+              className="absolute transition-all duration-500 hover:scale-125 cursor-pointer group"
+              style={{
+                top: `${50 + distance * Math.sin(angle)}%`,
+                left: `${50 + distance * Math.cos(angle)}%`,
+                transform: 'translate(-50%, -50%)',
+                width: `${size}px`,
+                height: `${size}px`,
+                zIndex: Math.floor(distance),
+              }}
+              onClick={() => setSelectedAttendee(email)}
+            >
+              <div 
+                className="relative w-full h-full animate-float" 
+                style={{ 
+                  animationDelay: `${delay}s`,
+                  animationDuration: '3s'
+                }}
+              >
+                {/* Aura glow */}
+                <div 
+                  className="absolute inset-0 rounded-full shadow-[0_0_10px_3px_rgba(96,165,250,0.3)]"
+                  style={{
+                    backgroundColor: `rgb(${Math.min(255, avgHeartRate)}, 100, 255)`,
+                  }}
+                />
+                {/* Initial letter */}
+                <div className="absolute inset-0 flex items-center justify-center text-white text-sm font-medium">
+                  {email[0].toUpperCase()}
+                </div>
+                
+                {/* Tooltip */}
+                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-white/10 backdrop-blur-md rounded text-white text-xs whitespace-nowrap">
+                  {email}
+                  <br />
+                  {avgHeartRate > 0 ? `${avgHeartRate} BPM` : 'No heart rate data'}
+                </div>
               </div>
             </div>
-          </div>
+          </>
         );
       })}
 
