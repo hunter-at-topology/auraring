@@ -153,7 +153,7 @@ export default function AuraRing() {
             <div className="space-y-4">
               {/* Heart Rate */}
               {auraData?.attendeeHeartRates[selectedAttendee] && (
-                <div className="bg-white/5 rounded-lg p-4">
+                <div className="bg-white/20 rounded-lg p-4">
                   <h3 className="text-white/80 text-sm mb-2">Average Heart Rate</h3>
                   <p className="text-2xl font-semibold text-white">
                     {Math.round(
@@ -171,7 +171,7 @@ export default function AuraRing() {
                   {auraData?.events
                     .filter(event => event.attendees?.some(a => a.email === selectedAttendee))
                     .map(event => (
-                      <div key={event.id} className="bg-white/5 rounded-lg p-4">
+                      <div key={event.id} className="bg-white/20 rounded-lg p-4">
                         <h4 className="text-white font-medium">{event.summary || 'Untitled Event'}</h4>
                         <p className="text-white/60 text-sm">
                           {new Date(event.start?.dateTime || event.start?.date || '').toLocaleString()}
