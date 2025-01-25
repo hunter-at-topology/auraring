@@ -45,7 +45,7 @@ export default function AuraRing() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white text-xl">Loading your aura connections...</div>
+        <div className="text-white text-xl">Finalizing...</div>
       </div>
     );
   }
