@@ -191,11 +191,10 @@ export default function AuraRing() {
           );
         })}
       </div>
-
       {/* Selected attendee details panel */}
       {selectedAttendee && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md p-4" style={{ zIndex: 1000 }}>
-          <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto border border-white/10">
+          <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto border border-white/10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-black/60 [&::-webkit-scrollbar-thumb]:rounded-full">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-light text-white tracking-wide">{selectedAttendee}</h2>
               <button 
