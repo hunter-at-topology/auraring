@@ -91,9 +91,16 @@ export default function AuraRing() {
               {/* Profile circle */}
               <div className="absolute inset-0.5 rounded-full overflow-hidden bg-gray-100" />
 
-              {/* Name label - Always visible */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-white text-[10px] whitespace-nowrap">
-                {friend.name}
+              {/* Name and heart rate info */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center">
+                <span className="text-white text-[10px] whitespace-nowrap">
+                  {friend.name}
+                </span>
+                <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-black/70 text-white text-[10px] px-2 py-1 rounded mt-1 whitespace-nowrap">
+                  <div>Current: {friend.bpm} BPM</div>
+                  <div>Max: {maxBpm} BPM</div>
+                  <div>Min: {minBpm} BPM</div>
+                </div>
               </div>
             </div>
           </div>
