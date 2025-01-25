@@ -43,64 +43,64 @@ export default {
         },
         'blob-1': {
           '0%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-120%, -120%) scale(1)',
           },
           '25%': {
-            transform: 'translate(25%, -75%) scale(1.3)',
+            transform: 'translate(120%, -120%) scale(1.3)',
           },
           '50%': {
-            transform: 'translate(-75%, 25%) scale(0.8)',
+            transform: 'translate(-120%, 120%) scale(0.8)',
           },
           '75%': {
-            transform: 'translate(50%, 50%) scale(1.2)',
+            transform: 'translate(120%, 120%) scale(1.2)',
           },
           '100%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-120%, -120%) scale(1)',
           },
         },
         'blob-2': {
           '0%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-120%, -50%) scale(1)',
           },
           '33%': {
-            transform: 'translate(-75%, 75%) scale(1.2)',
+            transform: 'translate(-50%, -120%) scale(1.2)',
           },
           '66%': {
-            transform: 'translate(75%, -25%) scale(0.9)',
+            transform: 'translate(120%, 120%) scale(0.9)',
           },
           '100%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-120%, -50%) scale(1)',
           },
         },
         'blob-3': {
           '0%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(120%, -120%) scale(1)',
           },
           '33%': {
-            transform: 'translate(75%, -75%) scale(0.8)',
+            transform: 'translate(-120%, -50%) scale(0.8)',
           },
           '66%': {
-            transform: 'translate(-25%, 50%) scale(1.3)',
+            transform: 'translate(120%, 120%) scale(1.3)',
           },
           '100%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(120%, -120%) scale(1)',
           },
         },
         'blob-4': {
           '0%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-50%, -120%) scale(1)',
           },
           '25%': {
-            transform: 'translate(-75%, -25%) scale(1.2)',
+            transform: 'translate(-120%, 50%) scale(1.2)',
           },
           '50%': {
-            transform: 'translate(25%, 75%) scale(0.7)',
+            transform: 'translate(120%, -50%) scale(0.7)',
           },
           '75%': {
-            transform: 'translate(50%, -50%) scale(1.1)',
+            transform: 'translate(-50%, 120%) scale(1.1)',
           },
           '100%': {
-            transform: 'translate(-50%, -50%) scale(1)',
+            transform: 'translate(-50%, -120%) scale(1)',
           },
         },
         shimmer: {
