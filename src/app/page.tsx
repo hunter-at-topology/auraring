@@ -1,101 +1,102 @@
-import Image from "next/image";
+'use client';
+
+import Image from 'next/image';
+
+interface Friend {
+  id: string;
+  name: string;
+  distance: number; // 0-100, percentage from center
+  imageUrl?: string;
+  auraColors: {
+    from: string;
+    to: string;
+  };
+}
+
+const SAMPLE_FRIENDS: Friend[] = [
+  {
+    id: '1',
+    name: 'Alice',
+    distance: 40,
+    imageUrl: "https://thelightcommittee.com/wp-content/uploads/elementor/thumbs/studio-business-headshot-of-a-black-man-in-Los-Angeles-qep2bstk7vlgl6yzkdozfxz606pu8t2vgp6pzqd4pc.jpg",
+    auraColors: { from: 'blue-300', to: 'purple-300' }
+  },
+  {
+    id: '2',
+    name: 'Bob',
+    distance: 60,
+    imageUrl: '/sample-avatar-2.jpg',
+    auraColors: { from: 'pink-300', to: 'purple-400' }
+  },
+  {
+    id: '3',
+    name: 'Charlie',
+    distance: 80,
+    auraColors: { from: 'indigo-300', to: 'blue-400' }
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-black flex items-center justify-center p-8">
+      {/* Main container */}
+      <div className="relative w-full max-w-3xl aspect-square">
+        {/* Central glowing orb - your aura */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48">
+          <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-xl" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 via-pink-400 to-blue-500 animate-pulse shadow-[0_0_100px_30px_rgba(168,85,247,0.4)]" />
+          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-400/40 via-transparent to-purple-400/40 animate-pulse [animation-delay:-.5s]" />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Surrounding friend orbs */}
+        {SAMPLE_FRIENDS.map((friend, index) => {
+          const angle = (index * 2 * Math.PI) / SAMPLE_FRIENDS.length;
+          return (
+            <div
+              key={friend.id}
+              className="absolute w-16 h-16 transition-transform duration-300 hover:scale-125 cursor-pointer group"
+              style={{
+                top: `${50 + friend.distance * Math.sin(angle)}%`,
+                left: `${50 + friend.distance * Math.cos(angle)}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <div 
+                className="relative w-full h-full animate-float" 
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                {/* Aura glow */}
+                <div 
+                  className="absolute inset-0 rounded-full shadow-[0_0_20px_5px_rgba(168,85,247,0.2)]"
+                  style={{
+                    background: `linear-gradient(to bottom right, var(--tw-gradient-from-${friend.auraColors.from}), var(--tw-gradient-to-${friend.auraColors.to}))`,
+                  }}
+                />
+                
+                {/* Glass effect */}
+                <div className="absolute inset-0 rounded-full bg-white/20 backdrop-blur-sm" />
+                
+                {/* Profile image if available */}
+                {friend.imageUrl && (
+                  <div className="absolute inset-2 rounded-full overflow-hidden">
+                    <Image 
+                      src={friend.imageUrl} 
+                      alt={friend.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+
+                {/* Name tooltip */}
+                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 text-white text-sm px-2 py-1 rounded whitespace-nowrap backdrop-blur-sm">
+                  {friend.name}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
-}
+} 
