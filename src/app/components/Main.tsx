@@ -36,6 +36,7 @@ export default function Main() {
         console.error('Failed to initiate Google login:', error);
       }
     }, []);
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-indigo-900 via-purple-900 to-black flex flex-col items-center justify-center p-8 gap-8">
         {!isAuthenticated && (
