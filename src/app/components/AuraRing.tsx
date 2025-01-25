@@ -168,12 +168,12 @@ export default function AuraRing() {
                 <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/10 to-white/30 mix-blend-overlay" />
                 
                 {/* Initial letter */}
-                <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-light">
+                <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-light font-mono">
                   {email[0].toUpperCase()}
                 </div>
                 
                 {/* Enhanced tooltip */}
-                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm whitespace-nowrap">
+                <div className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-white/10 backdrop-blur-md rounded-lg text-white text-sm whitespace-nowrap font-mono">
                   <div className="font-medium">{email}</div>
                   <div className="text-xs opacity-80">
                     {avgHeartRate > 0 ? (
@@ -194,12 +194,12 @@ export default function AuraRing() {
       {/* Selected attendee details panel */}
       {selectedAttendee && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-md p-4" style={{ zIndex: 1000 }}>
-          <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto border border-white/10 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-black/20 [&::-webkit-scrollbar-thumb]:bg-black/60 [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div className="bg-black/30 backdrop-blur-xl rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto border border-white/10">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-light text-white tracking-wide">{selectedAttendee}</h2>
+              <h2 className="text-2xl font-light text-white tracking-wide font-mono">{selectedAttendee}</h2>
               <button 
                 onClick={() => setSelectedAttendee(null)}
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-white/60 hover:text-white transition-colors font-mono"
               >
                 ✕
               </button>
@@ -209,8 +209,8 @@ export default function AuraRing() {
               {/* Heart Rate */}
               {auraData?.attendeeHeartRates[selectedAttendee] && (
                 <div className="bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/5">
-                  <h3 className="text-white/80 text-sm font-medium mb-2">Average Heart Rate</h3>
-                  <p className="text-3xl font-light text-white">
+                  <h3 className="text-white/80 text-sm font-medium mb-2 font-mono">Average Heart Rate</h3>
+                  <p className="text-3xl font-light text-white font-mono">
                     {Math.round(
                       auraData.attendeeHeartRates[selectedAttendee].reduce((a, b) => a + b, 0) / 
                       auraData.attendeeHeartRates[selectedAttendee].length
@@ -221,14 +221,14 @@ export default function AuraRing() {
 
               {/* Meetings */}
               <div>
-                <h3 className="text-white/80 text-sm font-medium mb-3">Recent Meetings</h3>
+                <h3 className="text-white/80 text-sm font-medium mb-3 font-mono">Recent Meetings</h3>
                 <div className="space-y-3">
                   {auraData?.events
                     .filter(event => event.attendees?.some(a => a.email === selectedAttendee))
                     .map(event => (
                       <div key={event.id} className="bg-white/5 rounded-xl p-4 backdrop-blur-sm border border-white/5">
-                        <h4 className="text-white font-medium mb-1">{event.summary || 'Untitled Event'}</h4>
-                        <p className="text-white/60 text-sm">
+                        <h4 className="text-white font-medium mb-1 font-mono">{event.summary || 'Untitled Event'}</h4>
+                        <p className="text-white/60 text-sm font-mono">
                           {new Date(event.start?.dateTime || event.start?.date || '').toLocaleString()}
                         </p>
                       </div>

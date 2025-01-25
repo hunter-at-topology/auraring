@@ -104,7 +104,7 @@ export default function LoadingSequence({ onComplete }: { onComplete: () => void
             <div
               key={index}
               className={`
-                transition-all duration-700 text-2xl md:text-3xl font-light
+                transition-all duration-700 text-2xl md:text-3xl font-light font-mono
                 ${index === currentStep ? 'text-white scale-110 translate-x-0' : 
                   index < currentStep ? 'text-blue-300/80 scale-90 -translate-x-8' : 
                   'text-blue-900 scale-90 translate-x-8'}

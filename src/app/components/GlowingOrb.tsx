@@ -27,7 +27,7 @@ export default function GlowingOrb({ size = 256, text, className = '', animate =
       {/* Text content */}
       {text && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white text-4xl font-light tracking-[0.2em] animate-pulse mix-blend-overlay">
+          <div className="text-white text-4xl font-light tracking-[0.2em] animate-pulse mix-blend-overlay font-mono">
             {text}
           </div>
         </div>
