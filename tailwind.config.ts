@@ -18,10 +18,10 @@ export default {
         'fade-in': 'fadeIn 0.5s ease-in forwards',
         'fade-out': 'fadeOut 0.5s ease-out forwards',
         'scale-in': 'scaleIn 0.5s ease-out forwards',
-        'blob-1': 'blob-1 20s infinite',
-        'blob-2': 'blob-2 25s infinite',
-        'blob-3': 'blob-3 30s infinite',
-        'blob-4': 'blob-4 35s infinite',
+        'blob-1': 'blob-1 25s infinite',
+        'blob-2': 'blob-2 30s infinite',
+        'blob-3': 'blob-3 35s infinite',
+        'blob-4': 'blob-4 40s infinite',
         'shimmer': 'shimmer 2s linear infinite',
       },
       keyframes: {
@@ -42,53 +42,65 @@ export default {
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
         'blob-1': {
-          '0%, 100%': {
-            transform: 'translate(0, 0) scale(1)',
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
           '25%': {
-            transform: 'translate(150px, -100px) scale(1.2)',
+            transform: 'translate(25%, -75%) scale(1.3)',
           },
           '50%': {
-            transform: 'translate(-50px, 100px) scale(0.9)',
+            transform: 'translate(-75%, 25%) scale(0.8)',
           },
           '75%': {
-            transform: 'translate(-100px, -50px) scale(1.1)',
+            transform: 'translate(50%, 50%) scale(1.2)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
         },
         'blob-2': {
-          '0%, 100%': {
-            transform: 'translate(0, 0) scale(1)',
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
           '33%': {
-            transform: 'translate(-100px, 100px) scale(1.1)',
+            transform: 'translate(-75%, 75%) scale(1.2)',
           },
           '66%': {
-            transform: 'translate(100px, 50px) scale(0.9)',
+            transform: 'translate(75%, -25%) scale(0.9)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
         },
         'blob-3': {
-          '0%, 100%': {
-            transform: 'translate(0, 0) scale(1)',
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
           '33%': {
-            transform: 'translate(100px, -100px) scale(0.8)',
+            transform: 'translate(75%, -75%) scale(0.8)',
           },
           '66%': {
-            transform: 'translate(-150px, 50px) scale(1.2)',
+            transform: 'translate(-25%, 50%) scale(1.3)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
         },
         'blob-4': {
-          '0%, 100%': {
-            transform: 'translate(0, 0) scale(1)',
+          '0%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
           '25%': {
-            transform: 'translate(-100px, -150px) scale(1.2)',
+            transform: 'translate(-75%, -25%) scale(1.2)',
           },
           '50%': {
-            transform: 'translate(100px, 100px) scale(0.8)',
+            transform: 'translate(25%, 75%) scale(0.7)',
           },
           '75%': {
-            transform: 'translate(50px, -100px) scale(1.1)',
+            transform: 'translate(50%, -50%) scale(1.1)',
+          },
+          '100%': {
+            transform: 'translate(-50%, -50%) scale(1)',
           },
         },
         shimmer: {

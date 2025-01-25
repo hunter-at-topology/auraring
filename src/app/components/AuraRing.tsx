@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSequence from './LoadingSequence';
+import GlowingOrb from './GlowingOrb';
 
 interface Event {
   id: string;
@@ -60,49 +61,42 @@ export default function AuraRing() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black overflow-hidden">
       {/* Gooey effect base */}
-      <div className="absolute inset-0 bg-black filter blur-[150px] opacity-80" />
+      <div className="absolute inset-0 bg-black filter blur-[200px] opacity-90" />
       
       {/* Lava lamp background effect */}
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <div className="relative w-[1200px] h-[1200px]">
+        <div className="relative w-screen h-screen">
           {/* Layer 1 - Deep background blobs */}
-          <div className="absolute top-1/2 left-1/2 w-[700px] h-[700px] bg-gradient-to-r from-blue-500/30 to-purple-600/30 rounded-full mix-blend-screen opacity-40 animate-blob-1" 
-               style={{ filter: 'blur(100px)', transform: 'translate(-50%, -50%)' }} />
-          <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-500/30 to-pink-600/30 rounded-full mix-blend-screen opacity-40 animate-blob-2 [animation-delay:-10s]"
-               style={{ filter: 'blur(120px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/20 to-purple-600/20 rounded-full mix-blend-screen opacity-40 animate-blob-1" 
+               style={{ filter: 'blur(150px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-full mix-blend-screen opacity-40 animate-blob-2 [animation-delay:-15s]"
+               style={{ filter: 'blur(180px)', transform: 'translate(-50%, -50%)' }} />
           
           {/* Layer 2 - Mid-level blobs */}
-          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-r from-cyan-400/40 to-blue-600/40 rounded-full mix-blend-screen opacity-50 animate-blob-3 [animation-delay:-5s]"
-               style={{ filter: 'blur(80px)', transform: 'translate(-50%, -50%)' }} />
-          <div className="absolute top-1/2 left-1/2 w-[550px] h-[550px] bg-gradient-to-r from-pink-400/40 to-purple-600/40 rounded-full mix-blend-screen opacity-50 animate-blob-4 [animation-delay:-15s]"
+          <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-gradient-to-r from-cyan-400/30 to-blue-600/30 rounded-full mix-blend-screen opacity-50 animate-blob-3 [animation-delay:-7s]"
+               style={{ filter: 'blur(130px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[750px] h-[750px] bg-gradient-to-r from-pink-400/30 to-purple-600/30 rounded-full mix-blend-screen opacity-50 animate-blob-4 [animation-delay:-20s]"
+               style={{ filter: 'blur(140px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 3 - Accent blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-400/40 to-cyan-600/40 rounded-full mix-blend-screen opacity-60 animate-blob-2 [animation-delay:-10s]"
+               style={{ filter: 'blur(100px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-gradient-to-r from-purple-400/40 to-pink-600/40 rounded-full mix-blend-screen opacity-60 animate-blob-3 [animation-delay:-18s]"
                style={{ filter: 'blur(90px)', transform: 'translate(-50%, -50%)' }} />
           
-          {/* Layer 3 - Foreground blobs */}
-          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-r from-blue-400/50 to-cyan-600/50 rounded-full mix-blend-screen opacity-60 animate-blob-2 [animation-delay:-7s]"
-               style={{ filter: 'blur(60px)', transform: 'translate(-50%, -50%)' }} />
-          <div className="absolute top-1/2 left-1/2 w-[450px] h-[450px] bg-gradient-to-r from-purple-400/50 to-pink-600/50 rounded-full mix-blend-screen opacity-60 animate-blob-3 [animation-delay:-12s]"
+          {/* Layer 4 - Small highlight blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-r from-cyan-300/50 to-blue-500/50 rounded-full mix-blend-screen opacity-70 animate-blob-4 [animation-delay:-5s]"
                style={{ filter: 'blur(70px)', transform: 'translate(-50%, -50%)' }} />
-          
-          {/* Layer 4 - Small accent blobs */}
-          <div className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-gradient-to-r from-cyan-300/60 to-blue-500/60 rounded-full mix-blend-screen opacity-70 animate-blob-4 [animation-delay:-3s]"
-               style={{ filter: 'blur(50px)', transform: 'translate(-50%, -50%)' }} />
-          <div className="absolute top-1/2 left-1/2 w-[250px] h-[250px] bg-gradient-to-r from-pink-300/60 to-purple-500/60 rounded-full mix-blend-screen opacity-70 animate-blob-1 [animation-delay:-8s]"
-               style={{ filter: 'blur(40px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] bg-gradient-to-r from-pink-300/50 to-purple-500/50 rounded-full mix-blend-screen opacity-70 animate-blob-1 [animation-delay:-12s]"
+               style={{ filter: 'blur(60px)', transform: 'translate(-50%, -50%)' }} />
         </div>
       </div>
 
       {/* Main content container */}
       <div className="relative w-full h-screen max-h-[800px] max-w-[800px] mx-auto">
-        {/* Central aura orb - more ethereal */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/10 to-purple-500/10 backdrop-blur-xl" />
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400/80 via-cyan-300/80 to-purple-500/80 mix-blend-screen animate-pulse shadow-[0_0_150px_50px_rgba(96,165,250,0.3)]" />
-          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-300/30 via-transparent to-purple-400/30 mix-blend-screen animate-pulse [animation-delay:-.5s]" />
-          
-          {/* Center AURA text */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-white text-4xl font-light tracking-[0.2em] animate-pulse mix-blend-overlay">aura</div>
-          </div>
+        {/* Central aura orb */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <GlowingOrb size={256} text="aura" />
         </div>
 
         {/* Surrounding attendee orbs */}

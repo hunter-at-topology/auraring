@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import GlowingOrb from './GlowingOrb';
 
 interface LoadingStep {
   text: string;
@@ -16,6 +17,7 @@ const loadingSteps: LoadingStep[] = [
 export default function LoadingSequence({ onComplete }: { onComplete: () => void }) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [orbPosition, setOrbPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -37,36 +39,67 @@ export default function LoadingSequence({ onComplete }: { onComplete: () => void
     return () => clearTimeout(timeout);
   }, [currentStep, onComplete]);
 
+  // Animate orb position
+  useEffect(() => {
+    const animateOrb = () => {
+      const angle = (Date.now() / 3000) % (2 * Math.PI); // Complete circle every 3 seconds
+      const radius = 50; // Radius of movement in pixels
+      
+      setOrbPosition({
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius
+      });
+
+      requestAnimationFrame(animateOrb);
+    };
+
+    const animation = requestAnimationFrame(animateOrb);
+    return () => cancelAnimationFrame(animation);
+  }, []);
+
   if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black overflow-hidden">
       {/* Gooey effect base */}
-      <div className="absolute inset-0 bg-black filter blur-[100px] opacity-70" />
+      <div className="absolute inset-0 bg-black filter blur-[200px] opacity-90" />
       
-      {/* Animated blobs */}
-      <div className="absolute inset-0 flex items-center justify-center animate-blob-spin">
-        <div className="relative w-[800px] h-[800px]">
-          {/* Main blobs */}
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mix-blend-screen opacity-70 animate-blob" 
-               style={{ transform: 'translate(-50%, -50%)', filter: 'blur(30px)' }} />
-          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mix-blend-screen opacity-70 animate-blob [animation-delay:-2s]"
-               style={{ transform: 'translate(-60%, -40%)', filter: 'blur(30px)' }} />
-          <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mix-blend-screen opacity-70 animate-blob [animation-delay:-4s]"
-               style={{ transform: 'translate(-40%, -60%)', filter: 'blur(30px)' }} />
+      {/* Lava lamp background effect */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="relative w-screen h-screen">
+          {/* Layer 1 - Deep background blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[900px] h-[900px] bg-gradient-to-r from-blue-500/20 to-purple-600/20 rounded-full mix-blend-screen opacity-40 animate-blob-1" 
+               style={{ filter: 'blur(150px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[1000px] h-[1000px] bg-gradient-to-r from-purple-500/20 to-pink-600/20 rounded-full mix-blend-screen opacity-40 animate-blob-2 [animation-delay:-15s]"
+               style={{ filter: 'blur(180px)', transform: 'translate(-50%, -50%)' }} />
           
-          {/* Secondary blobs */}
-          <div className="absolute top-1/2 left-1/2 w-56 h-56 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full mix-blend-screen opacity-50 animate-blob [animation-delay:-1s]"
-               style={{ transform: 'translate(-45%, -55%)', filter: 'blur(25px)' }} />
-          <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-gradient-to-r from-purple-300 to-pink-400 rounded-full mix-blend-screen opacity-50 animate-blob [animation-delay:-3s]"
-               style={{ transform: 'translate(-55%, -45%)', filter: 'blur(25px)' }} />
+          {/* Layer 2 - Mid-level blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-gradient-to-r from-cyan-400/30 to-blue-600/30 rounded-full mix-blend-screen opacity-50 animate-blob-3 [animation-delay:-7s]"
+               style={{ filter: 'blur(130px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[750px] h-[750px] bg-gradient-to-r from-pink-400/30 to-purple-600/30 rounded-full mix-blend-screen opacity-50 animate-blob-4 [animation-delay:-20s]"
+               style={{ filter: 'blur(140px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 3 - Accent blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-400/40 to-cyan-600/40 rounded-full mix-blend-screen opacity-60 animate-blob-2 [animation-delay:-10s]"
+               style={{ filter: 'blur(100px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-gradient-to-r from-purple-400/40 to-pink-600/40 rounded-full mix-blend-screen opacity-60 animate-blob-3 [animation-delay:-18s]"
+               style={{ filter: 'blur(90px)', transform: 'translate(-50%, -50%)' }} />
+          
+          {/* Layer 4 - Small highlight blobs */}
+          <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-r from-cyan-300/50 to-blue-500/50 rounded-full mix-blend-screen opacity-70 animate-blob-4 [animation-delay:-5s]"
+               style={{ filter: 'blur(70px)', transform: 'translate(-50%, -50%)' }} />
+          <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] bg-gradient-to-r from-pink-300/50 to-purple-500/50 rounded-full mix-blend-screen opacity-70 animate-blob-1 [animation-delay:-12s]"
+               style={{ filter: 'blur(60px)', transform: 'translate(-50%, -50%)' }} />
         </div>
       </div>
 
       {/* Content container */}
       <div className="relative z-10 flex flex-col items-center">
+        {/* Animated glowing orb */}
+
+
         {/* Loading steps */}
-        <div className="space-y-8 mb-16">
+        <div className="space-y-8">
           {loadingSteps.map((step, index) => (
             <div
               key={index}
@@ -86,7 +119,7 @@ export default function LoadingSequence({ onComplete }: { onComplete: () => void
         </div>
 
         {/* Progress dots */}
-        <div className="flex space-x-4">
+        <div className="mt-16 flex space-x-4">
           {[0, 1, 2].map((dot) => (
             <div
               key={dot}
