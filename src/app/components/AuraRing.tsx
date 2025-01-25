@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import LoadingSequence from './LoadingSequence';
 
 interface Friend {
   bpm: number;
@@ -13,23 +14,41 @@ interface Friend {
   };
 }
 
-type AuraData = {
+interface AuraData {
   transformedData: Friend[];
-  events: any;
+  events: {
+    items?: Array<{
+      id: string;
+      summary?: string;
+      start?: { dateTime?: string; date?: string };
+      end?: { dateTime?: string; date?: string };
+    }>;
+  };
 }
 
 export default function AuraRing() {
+  const [showLoadingSequence, setShowLoadingSequence] = useState(true);
 
-  const { data: auraData } = useQuery<AuraData>({
+  const { data: auraData, isLoading } = useQuery<AuraData>({
     queryKey: ['auraData'],
     queryFn: async () => {
-      console.log(localStorage.getItem('googleTokens'));
       const response = await fetch('/api/aura?tokens=' + encodeURIComponent(localStorage.getItem('googleTokens') || ''));
       return response.json();
-    }
+    },
+    enabled: !showLoadingSequence, // Only start fetching after loading sequence
   });
 
-  console.log(auraData);
+  if (showLoadingSequence) {
+    return <LoadingSequence onComplete={() => setShowLoadingSequence(false)} />;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-white text-xl">Loading your aura connections...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-screen max-h-[800px] max-w-[800px] mx-auto">
@@ -48,14 +67,13 @@ export default function AuraRing() {
         const bpmRange = maxBpm - minBpm;
         
         // Calculate normalized distance (20-60 range for better fit)
-        // Lower BPM = closer to center
         const normalizedBpm = (friend.bpm - minBpm) / bpmRange; // 0 to 1
         const distance = 20 + (normalizedBpm * 40); // Maps to 20-60 range
         
         const totalFriends = auraData.transformedData.length;
         const angle = (index * 2 * Math.PI) / totalFriends;
         const delay = (index % 8) * 0.15;
-        const size = 20; // Slightly smaller size for better scaling
+        const size = 20;
         
         return (
           <div
