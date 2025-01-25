@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 
 interface Friend {
@@ -33,11 +32,11 @@ export default function AuraRing() {
   console.log(auraData);
 
   return (
-    <div className="relative w-full max-w-4xl aspect-square">
+    <div className="relative w-full h-screen max-h-[800px] max-w-[800px] mx-auto">
       {/* Central glowing orb - your aura */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-64 md:h-64">
         <div className="absolute inset-0 rounded-full bg-white/10 backdrop-blur-xl" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-cyan-300 to-blue-500 animate-pulse shadow-[0_0_100px_40px_rgba(96,165,250,0.4)]" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-cyan-300 to-blue-500 animate-pulse shadow-[0_0_60px_20px_rgba(96,165,250,0.4)]" />
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-300/40 via-transparent to-cyan-300/40 animate-pulse [animation-delay:-.5s]" />
       </div>
 
@@ -48,15 +47,15 @@ export default function AuraRing() {
         const maxBpm = Math.max(...auraData.transformedData.map(f => f.bpm));
         const bpmRange = maxBpm - minBpm;
         
-        // Calculate normalized distance (25-75 range)
+        // Calculate normalized distance (20-60 range for better fit)
         // Lower BPM = closer to center
         const normalizedBpm = (friend.bpm - minBpm) / bpmRange; // 0 to 1
-        const distance = 25 + (normalizedBpm * 50); // Maps to 25-75 range
+        const distance = 20 + (normalizedBpm * 40); // Maps to 20-60 range
         
         const totalFriends = auraData.transformedData.length;
         const angle = (index * 2 * Math.PI) / totalFriends;
         const delay = (index % 8) * 0.15;
-        const size = 24; // Consistent size for all friends
+        const size = 20; // Slightly smaller size for better scaling
         
         return (
           <div
@@ -80,7 +79,7 @@ export default function AuraRing() {
             >
               {/* Aura glow */}
               <div 
-                className="absolute inset-0 rounded-full shadow-[0_0_15px_5px_rgba(96,165,250,0.3)]"
+                className="absolute inset-0 rounded-full shadow-[0_0_10px_3px_rgba(96,165,250,0.3)]"
                 style={{
                   background: `linear-gradient(to bottom right, ${friend.auraColors.from}, ${friend.auraColors.to})`,
                 }}
@@ -92,8 +91,8 @@ export default function AuraRing() {
               {/* Profile circle */}
               <div className="absolute inset-0.5 rounded-full overflow-hidden bg-gray-100" />
 
-              {/* Name label */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-white text-xs whitespace-nowrap">
+              {/* Name label - Always visible */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-white text-[10px] whitespace-nowrap">
                 {friend.name}
               </div>
             </div>
