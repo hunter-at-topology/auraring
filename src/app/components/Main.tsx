@@ -8,7 +8,15 @@ import { useCallback, useState } from 'react';
 export default function Main() {
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
         if (typeof window !== 'undefined') {
-            return !!localStorage.getItem('googleTokens');
+            const tokensRaw = localStorage.getItem('googleTokens');
+            if (tokensRaw) {
+                const tokens = JSON.parse(tokensRaw);
+                if (tokens?.tokens?.expiry_date < Date.now()) {
+                    localStorage.removeItem('googleTokens');
+                    return false;
+                }
+            }
+            return !!tokensRaw;
         }
         return false;
     });
