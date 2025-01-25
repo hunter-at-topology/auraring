@@ -6,7 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 
 export default function Main() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return !!localStorage.getItem('googleTokens');
+        }
+        return false;
+    });
 
     const { data: authData } = useQuery({
       queryKey: ['googleAuth'],
@@ -18,8 +23,14 @@ export default function Main() {
           const response = await fetch(`/api/google/callback?code=${code}`);
           const data = await response.json();
           if (data.tokens) {
+            localStorage.setItem('googleTokens', JSON.stringify(data.tokens));
             setIsAuthenticated(true);
             return data;
+          }
+        } else {
+          const storedTokens = localStorage.getItem('googleTokens');
+          if (storedTokens) {
+            return { tokens: JSON.parse(storedTokens) };
           }
         }
         return null;

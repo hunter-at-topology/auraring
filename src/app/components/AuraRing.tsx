@@ -2,59 +2,35 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
 
 interface Friend {
-  id: string;
+  bpm: number;
   name: string;
-  distance: number;
-  imageUrl?: string;
-  size?: number;
+  id: string;
   auraColors: {
     from: string;
     to: string;
   };
 }
 
+type AuraData = {
+  transformedData: Friend[];
+  events: any;
+}
+
 export default function AuraRing() {
-  // Sample friend data with varying distances and sizes
-  const sampleFriends: Friend[] = [
-    // Inner circle
-    ...Array(8).fill(null).map((_, i) => ({
-      id: `inner-${i}`,
-      name: `Friend ${i + 1}`,
-      distance: 35,
-      size: 14,
-      imageUrl: '/sample-avatar.jpg',
-      auraColors: {
-        from: 'rgb(255, 200, 220)',
-        to: 'rgb(200, 220, 255)'
-      }
-    })),
-    // Middle circle
-    ...Array(12).fill(null).map((_, i) => ({
-      id: `middle-${i}`,
-      name: `Friend ${i + 9}`,
-      distance: 50,
-      size: 16,
-      imageUrl: '/sample-avatar.jpg',
-      auraColors: {
-        from: 'rgb(200, 255, 220)',
-        to: 'rgb(220, 200, 255)'
-      }
-    })),
-    // Outer circle
-    ...Array(16).fill(null).map((_, i) => ({
-      id: `outer-${i}`,
-      name: `Friend ${i + 21}`,
-      distance: 70,
-      size: 18,
-      imageUrl: '/sample-avatar.jpg',
-      auraColors: {
-        from: 'rgb(220, 200, 255)',
-        to: 'rgb(255, 220, 200)'
-      }
-    }))
-  ];
+
+  const { data: auraData } = useQuery<AuraData>({
+    queryKey: ['auraData'],
+    queryFn: async () => {
+      console.log(localStorage.getItem('googleTokens'));
+      const response = await fetch('/api/aura?tokens=' + encodeURIComponent(localStorage.getItem('googleTokens') || ''));
+      return response.json();
+    }
+  });
+
+  console.log(auraData);
 
   return (
     <div className="relative w-full max-w-4xl aspect-square">
@@ -66,22 +42,26 @@ export default function AuraRing() {
       </div>
 
       {/* Surrounding friend orbs */}
-      {sampleFriends.map((friend, index) => {
-        const angle = (index * 2 * Math.PI) / (friend.distance === 35 ? 8 : friend.distance === 50 ? 12 : 16);
+      {auraData?.transformedData.map((friend, index) => {
+        // Calculate distance based on BPM (lower BPM = closer)
+        // Map BPM range (typically 60-100) to distance range (35-65)
+        const distance = Math.max(35, Math.min(65, (friend.bpm - 60) * 0.75 + 35));
+        const totalFriends = auraData.transformedData.length;
+        const angle = (index * 2 * Math.PI) / totalFriends;
         const delay = (index % 8) * 0.15;
-        const size = friend.size || 16;
+        const size = 24; // Consistent size for all friends
         
         return (
           <div
             key={friend.id}
             className="absolute transition-all duration-500 hover:scale-125 cursor-pointer group"
             style={{
-              top: `${50 + friend.distance * Math.sin(angle)}%`,
-              left: `${50 + friend.distance * Math.cos(angle)}%`,
+              top: `${50 + distance * Math.sin(angle)}%`,
+              left: `${50 + distance * Math.cos(angle)}%`,
               transform: 'translate(-50%, -50%)',
               width: `${size}px`,
               height: `${size}px`,
-              zIndex: Math.floor(friend.distance),
+              zIndex: Math.floor(distance),
             }}
           >
             <div 
@@ -102,20 +82,11 @@ export default function AuraRing() {
               {/* Glass effect */}
               <div className="absolute inset-0 rounded-full bg-white/20 backdrop-blur-sm" />
               
-              {/* Profile image */}
-              <div className="absolute inset-0.5 rounded-full overflow-hidden bg-gray-100">
-                {friend.imageUrl && (
-                  <Image 
-                    src={friend.imageUrl} 
-                    alt={friend.name}
-                    fill
-                    className="object-cover"
-                  />
-                )}
-              </div>
+              {/* Profile circle */}
+              <div className="absolute inset-0.5 rounded-full overflow-hidden bg-gray-100" />
 
-              {/* Name tooltip */}
-              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 text-white text-xs px-2 py-0.5 rounded whitespace-nowrap backdrop-blur-sm">
+              {/* Name label */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-white text-xs whitespace-nowrap">
                 {friend.name}
               </div>
             </div>
