@@ -43,9 +43,16 @@ export default function AuraRing() {
 
       {/* Surrounding friend orbs */}
       {auraData?.transformedData.map((friend, index) => {
-        // Calculate distance based on BPM (lower BPM = closer)
-        // Map BPM range (typically 60-100) to distance range (35-65)
-        const distance = Math.max(35, Math.min(65, (friend.bpm - 60) * 0.75 + 35));
+        // Get min and max BPM values
+        const minBpm = Math.min(...auraData.transformedData.map(f => f.bpm));
+        const maxBpm = Math.max(...auraData.transformedData.map(f => f.bpm));
+        const bpmRange = maxBpm - minBpm;
+        
+        // Calculate normalized distance (25-75 range)
+        // Lower BPM = closer to center
+        const normalizedBpm = (friend.bpm - minBpm) / bpmRange; // 0 to 1
+        const distance = 25 + (normalizedBpm * 50); // Maps to 25-75 range
+        
         const totalFriends = auraData.transformedData.length;
         const angle = (index * 2 * Math.PI) / totalFriends;
         const delay = (index % 8) * 0.15;

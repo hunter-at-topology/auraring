@@ -13,8 +13,8 @@ interface OuraResponse {
 
 const AURA_KEY = process.env.AURA_KEY;
 const BASE_URL = process.env.NEXT_PUBLIC_AURA_URL;
-const START_DATE = process.env.NEXT_PUBLIC_START_DATE;
-const END_DATE = process.env.NEXT_PUBLIC_END_DATE;
+
+const SIZE_DAYS = 3;
 
 if (!BASE_URL || !AURA_KEY) {
   throw new Error('Missing required environment variables');
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
 
     // Construct the full URL with query parameters
     const url = new URL(BASE_URL as string);
-    url.searchParams.append('start_datetime', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+    url.searchParams.append('start_datetime', new Date(Date.now() - SIZE_DAYS * 24 * 60 * 60 * 1000).toISOString());
     url.searchParams.append('end_datetime', new Date().toISOString());
 
     const response = await fetch(url, {
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
     // Get calendar events
     const events = await calendar.events.list({
       calendarId: 'primary',
-      timeMin: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), 
+      timeMin: new Date(Date.now() - SIZE_DAYS * 24 * 60 * 60 * 1000).toISOString(), 
       timeMax: new Date().toISOString(),
       singleEvents: true,
       orderBy: 'startTime',
