@@ -138,7 +138,7 @@ export default function AuraRing() {
 
       {/* Selected attendee details panel */}
       {selectedAttendee && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-indigo-900/95 to-black/95 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-b from-indigo-900/95 to-black/95 backdrop-blur-sm p-4" style={{ zIndex: 1000 }}>
           <div className="bg-white/10 backdrop-blur-xl rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold text-white">{selectedAttendee}</h2>
